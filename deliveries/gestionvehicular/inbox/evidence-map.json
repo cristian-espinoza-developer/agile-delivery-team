@@ -1,0 +1,30 @@
+{
+  "personas": [
+    { "name": "G. (gerente)", "role": "gerente", "primary": true },
+    { "name": "M. (mecánico)", "role": "mecanico", "primary": true },
+    { "name": "E. (encargado)", "role": "encargado", "primary": true },
+    { "name": "P. (policía)", "role": "policia", "primary": true }
+  ],
+  "pains": [
+    { "id": "falta-panel-aprobaciones",            "source": "gerente.md",   "persona": "gerente"   },
+    { "id": "reportes-excel-celular",              "source": "gerente.md",   "persona": "gerente"   },
+    { "id": "sin-visibilidad-mantenimientos-gerente", "source": "gerente.md","persona": "gerente"   },
+    { "id": "sin-historial-vehiculo",              "source": "mecanico.md",  "persona": "mecanico"  },
+    { "id": "registro-manual-trabajos",            "source": "mecanico.md",  "persona": "mecanico"  },
+    { "id": "sin-control-inventario",              "source": "mecanico.md",  "persona": "mecanico"  },
+    { "id": "sin-agenda-mantenimientos",           "source": "mecanico.md",  "persona": "mecanico"  },
+    { "id": "sin-cancelacion-turnos",              "source": "mecanico.md",  "persona": "mecanico"  },
+    { "id": "reporte-costos-correo-manual",        "source": "mecanico.md",  "persona": "mecanico"  },
+    { "id": "agendamiento-celular-personal",       "source": "encargado.md", "persona": "encargado" },
+    { "id": "traspaso-manual-sin-fotos",           "source": "encargado.md", "persona": "encargado" },
+    { "id": "autorizacion-viajes-correo",          "source": "encargado.md", "persona": "encargado" },
+    { "id": "historial-disperso-excel",            "source": "encargado.md", "persona": "encargado" },
+    { "id": "inventario-sin-trazabilidad",         "source": "encargado.md", "persona": "encargado" },
+    { "id": "solicitud-repuestos-sin-respuesta",   "source": "encargado.md", "persona": "encargado" },
+    { "id": "novedades-sin-fotos",                 "source": "encargado.md", "persona": "encargado" },
+    { "id": "sin-recordatorios-mantenimiento",     "source": "policia.md",   "persona": "policia"   },
+    { "id": "espera-larga-taller",                 "source": "policia.md",   "persona": "policia"   },
+    { "id": "sin-historial-visible-policia",       "source": "policia.md",   "persona": "policia"   },
+    { "id": "sin-agendamiento-policia",            "source": "policia.md",   "persona": "policia"   }
+  ]
+}
