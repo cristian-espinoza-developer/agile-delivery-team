@@ -1,0 +1,288 @@
+{
+  "epics": [
+    {
+      "id": "E-01",
+      "title": "Agendamiento digital de mantenimientos",
+      "value": "El policía llega a su cita sin que el mecánico tenga que llamarlo a reclamar; el encargado deja de coordinar por celular personal. Es el outcome que mide directamente la métrica de éxito del MVP (tasa de cumplimiento de mantenimientos programados >= 70%).",
+      "priority": 1,
+      "origin": [
+        "mvp:funcionalidad-1-agenda-digital",
+        "mvp:funcionalidad-2-cancelacion-reagendamiento",
+        "mvp:funcionalidad-3-recordatorio-automatico",
+        "mvp:outcome-policia-asiste",
+        "mvp:metrica-cumplimiento-mantenimientos",
+        "req:R-03",
+        "req:R-04",
+        "req:R-05"
+      ]
+    },
+    {
+      "id": "E-02",
+      "title": "Registro de órdenes de trabajo e historial vehicular",
+      "value": "El mecánico cierra cada intervención sin riesgo de olvido ni error de suma, y cuenta con el historial del vehículo antes de intervenir; el policía puede consultar si el vehículo que le asignan tiene problemas recurrentes.",
+      "priority": 2,
+      "origin": [
+        "mvp:funcionalidad-4-registro-ordenes-trabajo",
+        "mvp:funcionalidad-5-historial-vehiculo",
+        "mvp:outcome-mecanico-registra-sin-errores",
+        "req:R-01",
+        "req:R-02",
+        "req:R-06"
+      ]
+    },
+    {
+      "id": "E-03",
+      "title": "Solicitud y aprobación digital de repuestos",
+      "value": "El encargado envía la solicitud de repuestos y recibe una respuesta formal en el sistema, sin tener que llamar para confirmar si el gerente la vio.",
+      "priority": 3,
+      "origin": [
+        "mvp:funcionalidad-6-solicitud-aprobacion-repuestos",
+        "mvp:outcome-gerente-aprueba-sin-correos",
+        "req:R-09"
+      ]
+    },
+    {
+      "id": "E-04",
+      "title": "Panel gerencial de visibilidad y control",
+      "value": "El gerente revisa el estado de mantenimientos de sus centros y aprueba solicitudes de repuestos desde el celular, sin depender de Excel ni de llamadas de seguimiento del encargado.",
+      "priority": 4,
+      "origin": [
+        "mvp:funcionalidad-7-panel-gerente",
+        "mvp:outcome-gerente-aprueba-sin-correos",
+        "req:R-10",
+        "req:R-15",
+        "req:R-17"
+      ]
+    }
+  ],
+  "stories": [
+    {
+      "id": "US-01",
+      "epic": "E-01",
+      "as_a": "encargado",
+      "want": "programar un mantenimiento para un vehículo específico (con fecha, hora y tipo de servicio) en el sistema",
+      "so_that": "el mecánico y el policía estén al tanto sin que yo los llame al celular",
+      "acceptance_criteria": [
+        "Dado que el encargado crea un nuevo mantenimiento programado con todos los campos requeridos, cuando lo guarda, entonces aparece en la agenda del mecánico y se envía una notificación al policía asignado a ese vehículo.",
+        "Dado que ya existe un mantenimiento en esa franja horaria para el mismo mecánico, cuando el encargado intenta crear otro en el mismo horario, entonces el sistema advierte el conflicto antes de guardar."
+      ],
+      "estimate": 5,
+      "dependencies": [],
+      "open_questions": [],
+      "priority": 1,
+      "origin": [
+        "us:US-01",
+        "req:R-03",
+        "req:R-04",
+        "persona:encargado#agendamiento-celular-personal",
+        "persona:mecanico#sin-agenda-mantenimientos"
+      ]
+    },
+    {
+      "id": "US-02",
+      "epic": "E-01",
+      "as_a": "policía",
+      "want": "agendar mi propio turno de mantenimiento eligiendo una fecha y hora disponible en el sistema",
+      "so_that": "no tener que llamar al mecánico ni ir sin cita",
+      "acceptance_criteria": [
+        "Dado que el policía accede al sistema con su vehículo asignado, cuando selecciona una franja disponible y confirma, entonces el turno queda registrado y el mecánico y el encargado reciben una notificación.",
+        "Dado que el policía intenta agendar en una franja ya ocupada, cuando intenta confirmar, entonces el sistema muestra las próximas franjas disponibles en lugar de bloquear sin orientación."
+      ],
+      "estimate": 5,
+      "dependencies": [],
+      "open_questions": [],
+      "priority": 2,
+      "origin": [
+        "us:US-02",
+        "req:R-04",
+        "persona:policia#sin-agendamiento-policia"
+      ]
+    },
+    {
+      "id": "US-04",
+      "epic": "E-01",
+      "as_a": "policía",
+      "want": "recibir un recordatorio automático al menos 48 horas antes de mi mantenimiento programado",
+      "so_that": "no olvidarme de ir",
+      "acceptance_criteria": [
+        "Dado que existe un mantenimiento programado dentro de las próximas 48 horas, cuando el sistema lo detecta en su ciclo de notificaciones, entonces envía un aviso al policía al canal configurado (correo u otro).",
+        "Dado que el policía ya canceló el turno, cuando el sistema evalúa los recordatorios pendientes, entonces no envía el aviso para ese turno cancelado."
+      ],
+      "estimate": 3,
+      "dependencies": [
+        "US-01",
+        "US-02"
+      ],
+      "open_questions": [
+        "¿Cuál es el canal exacto del recordatorio (correo, SMS, push, app) en el MVP? R-18 y US-04 lo dejan como 'correo u otro canal digital configurado', sin cerrar la decisión; user-stories.md marca la cobertura de R-18 como 'parcial'."
+      ],
+      "priority": 3,
+      "origin": [
+        "us:US-04",
+        "req:R-05",
+        "req:R-18",
+        "persona:policia#sin-recordatorios-mantenimiento"
+      ]
+    },
+    {
+      "id": "US-03",
+      "epic": "E-01",
+      "as_a": "policía",
+      "want": "cancelar o reagendar un turno de mantenimiento directamente en el sistema",
+      "so_that": "avisar con anticipación sin tener que llamar",
+      "acceptance_criteria": [
+        "Dado que el policía tiene un turno programado, cuando lo cancela o selecciona una nueva fecha, entonces el mecánico y el encargado reciben inmediatamente una notificación con el motivo (si se indicó).",
+        "Dado que el turno ya pasó sin asistencia, cuando el sistema lo detecta, entonces lo marca como 'no asistido' y notifica al encargado para seguimiento."
+      ],
+      "estimate": 3,
+      "dependencies": [
+        "US-01",
+        "US-02"
+      ],
+      "open_questions": [],
+      "priority": 4,
+      "origin": [
+        "us:US-03",
+        "req:R-04",
+        "persona:mecanico#sin-cancelacion-turnos"
+      ]
+    },
+    {
+      "id": "US-05",
+      "epic": "E-01",
+      "as_a": "mecánico",
+      "want": "ver la agenda del día con todos los mantenimientos asignados",
+      "so_that": "saber qué vehículos me esperan y prepararme",
+      "acceptance_criteria": [
+        "Dado que el mecánico abre el sistema al inicio del turno, cuando accede a la vista del día, entonces ve los mantenimientos ordenados por hora con el tipo de servicio, identificador del vehículo y nombre del policía.",
+        "Dado que un turno fue cancelado, cuando el mecánico consulta la agenda, entonces el turno aparece marcado como cancelado (no desaparece silenciosamente)."
+      ],
+      "estimate": 2,
+      "dependencies": [
+        "US-01",
+        "US-02"
+      ],
+      "open_questions": [],
+      "priority": 5,
+      "origin": [
+        "us:US-05",
+        "req:R-03",
+        "persona:mecanico#sin-agenda-mantenimientos"
+      ]
+    },
+    {
+      "id": "US-06",
+      "epic": "E-02",
+      "as_a": "mecánico",
+      "want": "registrar digitalmente una orden de trabajo (vehículo, trabajos realizados, materiales usados y costos)",
+      "so_that": "evitar olvidos y que el sistema calcule el total sin errores de suma",
+      "acceptance_criteria": [
+        "Dado que el mecánico completa una intervención, cuando ingresa los ítems de material y sus costos en la orden, entonces el sistema calcula y muestra el costo total automáticamente antes de que el mecánico confirme el cierre.",
+        "Dado que el mecánico cierra la orden, cuando la guarda, entonces queda vinculada al vehículo y aparece en su historial con fecha, tipo de trabajo, materiales y costo total."
+      ],
+      "estimate": 5,
+      "dependencies": [],
+      "open_questions": [],
+      "priority": 1,
+      "origin": [
+        "us:US-06",
+        "req:R-01",
+        "persona:mecanico#registro-manual-trabajos"
+      ]
+    },
+    {
+      "id": "US-07",
+      "epic": "E-02",
+      "as_a": "mecánico",
+      "want": "consultar el historial de mantenimientos del vehículo que voy a atender",
+      "so_that": "conocer el kilometraje anterior y los trabajos ya realizados antes de comenzar",
+      "acceptance_criteria": [
+        "Dado que el mecánico abre una orden de trabajo para un vehículo, cuando accede al historial de ese vehículo, entonces ve todas las intervenciones previas ordenadas cronológicamente con tipo de trabajo, materiales y costo.",
+        "Dado que el vehículo no tiene intervenciones anteriores en el sistema, cuando el mecánico consulta el historial, entonces el sistema muestra un mensaje explícito de 'sin historial registrado' en lugar de una pantalla vacía."
+      ],
+      "estimate": 3,
+      "dependencies": [
+        "US-06"
+      ],
+      "open_questions": [],
+      "priority": 2,
+      "origin": [
+        "us:US-07",
+        "req:R-02",
+        "persona:mecanico#sin-historial-vehiculo"
+      ]
+    },
+    {
+      "id": "US-08",
+      "epic": "E-02",
+      "as_a": "policía",
+      "want": "consultar el historial de mantenimientos del vehículo que me asignan",
+      "so_that": "saber si tiene problemas recurrentes antes de aceptarlo",
+      "acceptance_criteria": [
+        "Dado que un vehículo es asignado al policía, cuando el policía accede con el identificador del vehículo, entonces ve el listado de mantenimientos previos con fechas, tipos de trabajo y costos.",
+        "Dado que el policía consulta el historial, cuando hay mantenimientos realizados fuera de fecha (atrasados), entonces estos aparecen destacados para que el policía pueda identificar si el vehículo tuvo problemas de seguimiento."
+      ],
+      "estimate": 3,
+      "dependencies": [
+        "US-06"
+      ],
+      "open_questions": [],
+      "priority": 3,
+      "origin": [
+        "us:US-08",
+        "req:R-02",
+        "req:R-06",
+        "persona:policia#sin-historial-visible-policia"
+      ]
+    },
+    {
+      "id": "US-09",
+      "epic": "E-03",
+      "as_a": "encargado",
+      "want": "crear una solicitud de repuestos en el sistema",
+      "so_that": "que el gerente la vea en su panel y no se pierda en la bandeja de correo",
+      "acceptance_criteria": [
+        "Dado que el encargado crea una solicitud con lista de ítems y cantidades, cuando la envía, entonces aparece en el panel del gerente como pendiente de aprobación y el gerente recibe una notificación.",
+        "Dado que el gerente aprueba o rechaza la solicitud, cuando toma la decisión (con motivo opcional en caso de rechazo), entonces el encargado recibe la notificación en el sistema con el resultado; no requiere llamada ni nuevo correo."
+      ],
+      "estimate": 5,
+      "dependencies": [],
+      "open_questions": [],
+      "priority": 1,
+      "origin": [
+        "us:US-09",
+        "req:R-09",
+        "persona:encargado#solicitud-repuestos-sin-respuesta"
+      ]
+    },
+    {
+      "id": "US-10",
+      "epic": "E-04",
+      "as_a": "gerente",
+      "want": "acceder desde mi celular a un panel que muestre el estado de mantenimientos de mis centros y las solicitudes de repuestos pendientes para aprobar",
+      "so_that": "no depender de Excel ni del correo",
+      "acceptance_criteria": [
+        "Dado que el gerente accede al panel desde un smartphone, cuando navega por el estado de mantenimientos y solicitudes, entonces la interfaz es legible y operable sin zoom ni descarga de archivos Excel.",
+        "Dado que el gerente selecciona una solicitud de repuestos pendiente, cuando la aprueba o rechaza desde el panel, entonces la decisión se registra y el encargado del centro recibe la notificación en el sistema.",
+        "Dado que el gerente filtra por uno de sus centros, cuando aplica el filtro, entonces ve únicamente los mantenimientos de ese centro con su estado (programado / en curso / completado / no asistido) y el acumulado de costos del período."
+      ],
+      "estimate": 8,
+      "dependencies": [
+        "US-09"
+      ],
+      "open_questions": [
+        "El alcance de 'acumulado de costos del período' del tercer criterio de aceptación no está definido con precisión: mvp-canvas.md declara los 'Reportes avanzados automáticos' (R-14) fuera de alcance del MVP ('se habilitan en iteración 2'). Debe acotarse si es una simple sumatoria del período filtrado (en alcance) o si roza el reporte avanzado excluido, antes de refinar esta historia."
+      ],
+      "priority": 1,
+      "origin": [
+        "us:US-10",
+        "req:R-10",
+        "req:R-15",
+        "req:R-17",
+        "persona:gerente#falta-panel-aprobaciones",
+        "persona:gerente#reportes-excel-celular",
+        "persona:gerente#sin-visibilidad-mantenimientos-gerente"
+      ]
+    }
+  ]
+}
