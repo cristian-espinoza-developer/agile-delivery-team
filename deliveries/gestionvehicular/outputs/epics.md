@@ -88,7 +88,7 @@ Excel ni de llamadas de seguimiento del encargado.
 mobile-friendly); outcome "el gerente aprueba sin revisar correos".
 `requisitos.md` → R-10, R-15, R-17.
 **Prioridad:** 4
-**Historias:** US-10
+**Historias:** US-10, US-11
 
 Justificación de valor: es el outcome de menor riesgo del árbol de supuestos
 del discovery (S-4 "BAJO": "el gerente preferirá el panel al correo si la

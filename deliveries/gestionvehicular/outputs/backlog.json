@@ -105,7 +105,7 @@
       "want": "recibir un recordatorio automático al menos 48 horas antes de mi mantenimiento programado",
       "so_that": "no olvidarme de ir",
       "acceptance_criteria": [
-        "Dado que existe un mantenimiento programado dentro de las próximas 48 horas, cuando el sistema lo detecta en su ciclo de notificaciones, entonces envía un aviso al policía al canal configurado (correo u otro).",
+        "Dado que existe un mantenimiento programado dentro de las próximas 48 horas, cuando el sistema lo detecta en su ciclo de notificaciones, entonces envía un aviso al policía por correo electrónico (canal por defecto del sistema) o, si el policía tiene configurado otro canal digital, por ese canal configurado, conforme a R-18.",
         "Dado que el policía ya canceló el turno, cuando el sistema evalúa los recordatorios pendientes, entonces no envía el aviso para ese turno cancelado."
       ],
       "estimate": 3,
@@ -113,9 +113,7 @@
         "US-01",
         "US-02"
       ],
-      "open_questions": [
-        "¿Cuál es el canal exacto del recordatorio (correo, SMS, push, app) en el MVP? R-18 y US-04 lo dejan como 'correo u otro canal digital configurado', sin cerrar la decisión; user-stories.md marca la cobertura de R-18 como 'parcial'."
-      ],
+      "open_questions": [],
       "priority": 3,
       "origin": [
         "us:US-04",
@@ -259,20 +257,18 @@
       "id": "US-10",
       "epic": "E-04",
       "as_a": "gerente",
-      "want": "acceder desde mi celular a un panel que muestre el estado de mantenimientos de mis centros y las solicitudes de repuestos pendientes para aprobar",
-      "so_that": "no depender de Excel ni del correo",
+      "want": "acceder desde mi celular a un panel que muestre el estado de mantenimientos de mis centros (filtrable por centro, con el acumulado de costos del período) y las solicitudes de repuestos pendientes de aprobación",
+      "so_that": "no depender de Excel ni del correo para saber qué está pasando en mis centros",
       "acceptance_criteria": [
-        "Dado que el gerente accede al panel desde un smartphone, cuando navega por el estado de mantenimientos y solicitudes, entonces la interfaz es legible y operable sin zoom ni descarga de archivos Excel.",
-        "Dado que el gerente selecciona una solicitud de repuestos pendiente, cuando la aprueba o rechaza desde el panel, entonces la decisión se registra y el encargado del centro recibe la notificación en el sistema.",
-        "Dado que el gerente filtra por uno de sus centros, cuando aplica el filtro, entonces ve únicamente los mantenimientos de ese centro con su estado (programado / en curso / completado / no asistido) y el acumulado de costos del período."
+        "Dado que el gerente accede al panel desde un smartphone, cuando navega por el estado de mantenimientos y las solicitudes pendientes, entonces la interfaz es legible y operable sin zoom ni descarga de archivos Excel.",
+        "Dado que el gerente filtra por uno de sus centros, cuando aplica el filtro, entonces ve únicamente los mantenimientos de ese centro con su estado (programado / en curso / completado / no asistido) y una sumatoria simple del acumulado de costos del período filtrado, mostrada en la misma vista (no es un reporte generado, exportable ni programado; los 'reportes avanzados automáticos' de R-14 quedan fuera de este alcance y se habilitan en la iteración 2, según mvp-canvas.md).",
+        "Dado que existen solicitudes de repuestos pendientes de aprobación, cuando el gerente abre el panel, entonces las ve listadas junto con el estado de mantenimientos, sin necesidad de abrir el correo."
       ],
-      "estimate": 8,
+      "estimate": 5,
       "dependencies": [
         "US-09"
       ],
-      "open_questions": [
-        "El alcance de 'acumulado de costos del período' del tercer criterio de aceptación no está definido con precisión: mvp-canvas.md declara los 'Reportes avanzados automáticos' (R-14) fuera de alcance del MVP ('se habilitan en iteración 2'). Debe acotarse si es una simple sumatoria del período filtrado (en alcance) o si roza el reporte avanzado excluido, antes de refinar esta historia."
-      ],
+      "open_questions": [],
       "priority": 1,
       "origin": [
         "us:US-10",
@@ -282,6 +278,30 @@
         "persona:gerente#falta-panel-aprobaciones",
         "persona:gerente#reportes-excel-celular",
         "persona:gerente#sin-visibilidad-mantenimientos-gerente"
+      ]
+    },
+    {
+      "id": "US-11",
+      "epic": "E-04",
+      "as_a": "gerente",
+      "want": "aprobar o rechazar una solicitud de repuestos pendiente directamente desde el panel",
+      "so_that": "el encargado reciba la decisión en el sistema sin que yo tenga que llamarlo ni escribir un correo",
+      "acceptance_criteria": [
+        "Dado que el gerente selecciona una solicitud de repuestos pendiente en el panel, cuando la aprueba o la rechaza (con motivo opcional en caso de rechazo), entonces la decisión se registra y el encargado del centro recibe la notificación en el sistema.",
+        "Dado que una solicitud ya fue aprobada o rechazada, cuando el gerente vuelve a consultar el panel, entonces la solicitud aparece con su estado final y ya no figura en la bandeja de pendientes."
+      ],
+      "estimate": 3,
+      "dependencies": [
+        "US-09",
+        "US-10"
+      ],
+      "open_questions": [],
+      "priority": 2,
+      "origin": [
+        "us:US-10",
+        "req:R-10",
+        "req:R-15",
+        "persona:gerente#falta-panel-aprobaciones"
       ]
     }
   ]
