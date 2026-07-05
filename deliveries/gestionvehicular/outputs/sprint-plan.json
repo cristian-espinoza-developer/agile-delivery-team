@@ -1,0 +1,5 @@
+{
+  "sprint_goal": "Que el policía llegue a su cita sin que el mecánico tenga que llamarlo a reclamar, agendando, reagendando y recibiendo recordatorio automático de su mantenimiento directamente en el sistema",
+  "capacity": 20,
+  "stories": ["US-01", "US-02", "US-04", "US-03", "US-05"]
+}
